@@ -1,5 +1,9 @@
 class MediaObject:
     def __init__(self, filename, duration=0):
+        if not filename:
+            raise ValueError("empty filename")
+        if duration < 0:
+            raise ValueError("invalid duration")
         self.filename = filename
         self.duration = duration
     
