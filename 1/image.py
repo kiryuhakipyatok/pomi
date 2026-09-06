@@ -1,4 +1,4 @@
-from mediafile import MediaObject
+from mediaObject import MediaObject
 
 class Image(MediaObject):
     def __init__(self, filename, width=0, height=0, channels=0):
