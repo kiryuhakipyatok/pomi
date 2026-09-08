@@ -1,15 +1,17 @@
 from image import Image
-from image import InvalidFormat
 from mediaLibrary import MediaLibrary
-from brightnessFilter import BrightnessFilter
 import sys
 import cv2
 from matplotlib import pyplot as plt
+from mediaProcessor import ImageProcessor
+from mediaLoader import MediaLoader
+from imageFilter import *
 
 if __name__ == "__main__":
+    filePath = "image.png"
     image1 = None
     try:
-        image1 = Image("image.png")
+        image1 = Image(filePath)
     except Exception as e:
         print(f"error: {e}")
         sys.exit(0)
@@ -34,8 +36,19 @@ if __name__ == "__main__":
     plt.title('Original')
     plt.axis('off')
 
-    imageFilter = BrightnessFilter()
-    imageFilter.apply(image1)
+    imageProcessor = ImageProcessor()
+    mediaLoader = MediaLoader()
+    try:
+        brF = BrightnessFilter()
+        cF = ContrastFilter()
+        blF = BlurFilter()
+
+        imageProcessor.validate(filePath)
+        imageProcessor.process(image1, [brF, cF, blF])
+        mediaLoader.load_image(filePath)
+    except Exception as e:
+        print(f"error: {e}")
+        sys.exit(0)
 
     plt.subplot(1, 2, 2)
     plt.imshow(cv2.cvtColor(image1.mat, cv2.COLOR_BGR2RGB))

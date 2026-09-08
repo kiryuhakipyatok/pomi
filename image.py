@@ -1,14 +1,8 @@
 from mediaObject import MediaObject
-from enum import StrEnum
 from pathlib import Path
+from exeptions import InvalidFormat
+from enums import Format
 import cv2
-
-class Format(StrEnum):
-    PNG = ".png"
-    JPEG = ".jpeg"
-
-class InvalidFormat(Exception):
-    pass
 
 class Image(MediaObject):
     def __init__(self, filename):
