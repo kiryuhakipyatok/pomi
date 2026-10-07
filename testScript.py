@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
     plt.subplot(1, 2, 2)
     plt.imshow(cv2.cvtColor(image1.mat, cv2.COLOR_BGR2RGB))
-    plt.title('Lightened')
+    plt.title('Filtered')
     plt.axis('off')
 
     plt.show()
