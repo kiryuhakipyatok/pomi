@@ -7,6 +7,7 @@ from mediaProcessor import ImageProcessor
 from mediaLoader import MediaLoader
 from imageFilter import *
 from mediaCollection import *
+from imageProcessor import *
 
 if __name__ == "__main__":
     filePath = "image.png"
@@ -67,6 +68,16 @@ if __name__ == "__main__":
 
     grouped = media_filter.group_by_color_space()
     print(f"Группировка по color_space: { {k: len(v) for k, v in grouped.items()} }")
+
+    try:
+        loadedImg = load_image("chad.png")
+        convert_to_grayscale(loadedImg)
+        apply_median_filter(loadedImg)
+        extract_roi(loadedImg,100)
+        invert_colors(loadedImg)
+    except Exception as e:
+        print(f"error: {e}")
+    
 
     plt.subplot(1, 2, 1)
     plt.imshow(cv2.cvtColor(image1.mat, cv2.COLOR_BGR2RGB))
