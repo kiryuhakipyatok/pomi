@@ -24,3 +24,5 @@ class Image(MediaObject):
     def get_info(self):
         info = super().get_info()
         return f"{info}, {self.get_resolution()}"
+    def __str__(self):
+        return f"{self.filename}"

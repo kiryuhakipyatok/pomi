@@ -1,4 +1,5 @@
 from typing import TypeVar, Generic, List, Dict, Any, Set
+from image import Image
 
 T = TypeVar('T')
 
@@ -7,9 +8,12 @@ class MediaCollection(Generic[T]):
         self._items: List[T] = []
     
     def add(self, item: T) -> None:
-        self._items.append(item)
+        if isinstance(item, Image):
+            self._items.append(item)
     
     def get_all(self) -> List[T]:
+        if not self._items:
+            return []
         return self._items.copy()
     
     def filter_by_type(self, media_type: type) -> List[T]:
@@ -28,30 +32,30 @@ class MediaMetadata:
 
 
 class MetadataAnalyzer:
+    """Класс для анализа метаданных медиафайлов."""
+    
     def __init__(self):
-        self.width: Set[str] = set()
-        self.height: Set[str] = set()
-        self.color_channels: Set[str] = set()
+        self.file_formats = set() 
+        self.tags_used = set()   
+        self.artists = set()    
     
     def analyze_file(self, file_path: str, metadata: Dict[str, Any]) -> None:
         ext = file_path.split('.')[-1].lower()
         self.file_formats.add(ext)
 
-        if 'width' in metadata:
-            for tag in metadata['width']:
+        if 'tags' in metadata:
+            for tag in metadata['tags']:
                 self.tags_used.add(tag)
 
-        if 'height' in metadata:
-            self.artists.add(metadata['height'])
-
-        if 'color_channels' in metadata:
-            self.camera_models.add(metadata['color_channels'])
+        if 'artist' in metadata:
+            self.artists.add(metadata['artist'])
+        
     
     def get_summary(self) -> Dict[str, int]:
         return {
-            'width': len(self.file_formats),
-            'height': len(self.tags_used),
-            'color_channels': len(self.artists),
+            'formats': len(self.file_formats),
+            'tags': len(self.tags_used),
+            'artists': len(self.artists),
         }
 
 class MediaFilter:
